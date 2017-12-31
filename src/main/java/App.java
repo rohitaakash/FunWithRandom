@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class App {
     public static void main(String[] args) {
@@ -32,14 +33,14 @@ public class App {
         String[] lines = responseString.split("\n");
         int[][] rgbArray = new int[128][3];
 
-        try{
+        try {
             for (int i = 0; i < rgbArray.length; i++) {
                 String[] spl = lines[i].split("\\s");
                 rgbArray[i][0] = Integer.parseInt(spl[0]);
                 rgbArray[i][1] = Integer.parseInt(spl[1]);
                 rgbArray[i][2] = Integer.parseInt(spl[2]);
             }
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             e.printStackTrace();
         }
 
@@ -51,7 +52,9 @@ public class App {
         final BufferedImage image = new BufferedImage(sizeX, sizeY, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
-                image.setRGB(x, y, new Color(rgbArray[x][0], rgbArray[x][1], rgbArray[x][2]).getRGB());
+                Random random = new Random();
+                int i = (random.nextInt(2)) == 0 ? x : y;
+                image.setRGB(x, y, new Color(rgbArray[i][0], rgbArray[i][1], rgbArray[i][2]).getRGB());
             }
         }
         return image;
@@ -66,3 +69,4 @@ public class App {
         }
     }
 }
+
